@@ -49,6 +49,7 @@ public class LoginPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_page);
 
+
         etEmail = findViewById(R.id.login_email);
         etpassword = findViewById(R.id.login_password);
         btnLogin = findViewById(R.id.login_button);
@@ -86,7 +87,7 @@ public class LoginPage extends AppCompatActivity {
                                         startActivity(new Intent(LoginPage.this, MainActivity.class));
                                         finish();
                                     }else {
-                                        Toast.makeText(LoginPage.this, "message", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(LoginPage.this, "gagal kau", Toast.LENGTH_SHORT).show();
                                     }
                                 }catch (JSONException e) {
                                     e.printStackTrace();
@@ -104,19 +105,20 @@ public class LoginPage extends AppCompatActivity {
 
         btnGoogle = findViewById(R.id.google_signin);
 
-        gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
+        gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken("184302030716-mo1622s0ri7n7f2qciglppbfsgh7bngv.apps.googleusercontent.com")
+                .requestEmail()
+                .build();
         gsc = GoogleSignIn.getClient(this, gso);
 
-        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
-        if (account != null) {
-            navigateToMainActivity();
-        }
+//        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
+//        if (account != null) {
+//            navigateToMainActivity();
+//        }
 
         btnGoogle.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                signIn();
-            }
+            public void onClick(View view) { signIn(); }
 
         });
 
@@ -133,9 +135,15 @@ public class LoginPage extends AppCompatActivity {
         if (requestCode == 1000) {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             try {
-                task.getResult(ApiException.class);
-                navigateToMainActivity();
+                GoogleSignInAccount account = task.getResult(ApiException.class);
+                if ( account != null ) {
+                    navigateToMainActivity();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Sign-in failed", Toast.LENGTH_SHORT).show();
+                }
             } catch (ApiException e) {
+                int statusCode = e.getStatusCode();
+                Log.e("LoginActivity", "Google sign-in failed", e);
                 Toast.makeText(getApplicationContext(), "Something went wrong", Toast.LENGTH_SHORT).show();
             }
         }

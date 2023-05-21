@@ -7,14 +7,20 @@
     android:layout_height="match_parent"
     tools:context=".LoginPage"
     android:orientation="vertical"
-    android:background="#FAFAFA"
+    android:background="@color/white"
     android:gravity="center">
 
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="120dp"
+        android:src="@drawable/moviella_logo"
+        android:layout_gravity="center"/>
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="30dp"
+        android:layout_marginHorizontal="30dp"
+        android:layout_marginBottom="30dp"
         app:cardCornerRadius="20dp"
         app:cardElevation="10dp">
         <LinearLayout
@@ -30,9 +36,10 @@
                 android:layout_height="wrap_content"
                 android:text="Login"
                 android:textSize="36sp"
-                android:textAlignment="center"
                 android:textStyle="bold"
-                android:textColor="@color/black"/>
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                />
             <EditText
                 android:id="@+id/login_email"
                 android:layout_width="match_parent"
@@ -41,6 +48,7 @@
                 android:layout_marginTop="40dp"
                 android:hint="Email"
                 android:textColor="@color/black"
+                android:textColorHint="@color/hint"
                 android:paddingHorizontal="20dp" />
             <EditText
                 android:id="@+id/login_password"
@@ -51,7 +59,8 @@
                 android:inputType="textPassword"
                 android:paddingHorizontal="20dp"
                 android:hint="Password"
-                android:textColor="@color/black"/>
+                android:textColor="@color/black"
+                android:textColorHint="@color/hint"/>
 
             <Button
                 android:id="@+id/login_button"
@@ -60,7 +69,8 @@
                 android:text="Login"
                 android:textSize="18sp"
                 android:layout_marginTop="30dp"
-                android:backgroundTint="@color/black"
+                android:backgroundTint="@color/primary_color"
+                android:textColor="@color/white"
                 />
 
             <TextView
@@ -69,7 +79,8 @@
                 android:text="or"
                 android:textSize="16sp"
                 android:layout_gravity="center"
-                android:layout_marginVertical="5dp"/>
+                android:layout_marginVertical="5dp"
+                android:textColor="@color/hint"/>
 
             <com.developer.gbuttons.GoogleSignInButton
                 android:id="@+id/google_signin"
@@ -89,7 +100,7 @@
                 android:text="Not yet registered? Sign Up"
                 android:textAlignment="center"
                 android:textColor="@color/black"
-                android:textSize="12sp" />
+                android:textSize="14sp" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
