@@ -5,14 +5,36 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".detail_movies"
-    android:gravity="center">
+    tools:context=".MovieDetail"
+    android:layout_gravity="center"
+    android:orientation="vertical"
+    android:fitsSystemWindows="true">
 
+    <ImageView
+        android:id="@+id/ivMovieBackdrop"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:scaleType="fitXY"/>
     <TextView
-        android:id="@+id/tvDetail"
-        android:layout_width="wrap_content"
+        android:id="@+id/tvMovieTitle"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="24dp"
-       />
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:paddingHorizontal="20dp"
+        />
+    <TextView
+        android:id="@+id/tvMovieReleaseDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="12dp"
+        android:paddingHorizontal="20dp"/>
+    <TextView
+        android:id="@+id/tvMovieOverview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="14dp"
+        android:layout_marginTop="30dp"
+        android:paddingHorizontal="20dp"/>
 
 </LinearLayout>

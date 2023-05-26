@@ -111,10 +111,21 @@ public class LoginPage extends AppCompatActivity {
                 .build();
         gsc = GoogleSignIn.getClient(this, gso);
 
+        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
+        if (account != null) {
+            navigateToMainActivity();
+        }
+
 //        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
-//        if (account != null) {
-//            navigateToMainActivity();
-//        }
+//        SharedPreferences sharedPreferences = getSharedPreferences("prefs", MODE_PRIVATE);
+//        SharedPreferences.Editor editor = sharedPreferences.edit();
+//
+//        editor.putString("email", account.getEmail());
+//        editor.putString("display_name", account.getDisplayName());
+//        editor.apply();
+
+//        String displayName = sharedPreferences.getString("display_name", "");
+//        String email = sharedPreferences.getString("email", "");
 
         btnGoogle.setOnClickListener(new View.OnClickListener() {
             @Override

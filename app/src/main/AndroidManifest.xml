@@ -27,7 +27,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".detail_movies"
+            android:name=".MovieDetail"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
