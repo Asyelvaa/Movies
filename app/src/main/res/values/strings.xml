@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">Movies</string>
     <string name="webclientID">184302030716-mo1622s0ri7n7f2qciglppbfsgh7bngv.apps.googleusercontent.com</string>
+
+    <string name="open">Open navigation Drawer</string>
+    <string name="close">Close navigation Drawer</string>
 </resources>

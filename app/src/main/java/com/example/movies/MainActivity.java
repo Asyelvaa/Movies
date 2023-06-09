@@ -1,19 +1,30 @@
 package com.example.movies;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.JSONObjectRequestListener;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.material.navigation.NavigationView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -21,14 +32,32 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements MovieAdapter.MovieAdapterListener{
+public class MainActivity extends AppCompatActivity implements MovieAdapter.MovieAdapterListener {
 
-    RecyclerView rvMovielist;
-    ArrayList<MovieModel> listMovie;
-    private MovieAdapter adapterMovie;
+    RecyclerView rvMovieList;
+    ArrayList<MovieModel> movieModelList;
+    MovieAdapter movieAdapter;
     ProgressBar progressBar;
 
-    public void getMovies(){
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        rvMovieList = findViewById(R.id.rvMovieList);
+        progressBar = findViewById(R.id.progressbar);
+
+        movieModelList = new ArrayList<>();
+        movieAdapter = new MovieAdapter(this, movieModelList, this);
+
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+        rvMovieList.setLayoutManager(layoutManager);
+        rvMovieList.setAdapter(movieAdapter);
+
+        getMovies();
+    }
+
+    public void getMovies() {
         progressBar.setVisibility(View.VISIBLE);
 
         AndroidNetworking.initialize(getApplicationContext());
@@ -43,58 +72,70 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
                         try {
                             JSONArray jsonArrayMovies = response.getJSONArray("results");
                             for (int i = 0; i < jsonArrayMovies.length(); i++) {
-                                MovieModel movie = new MovieModel();
-                                JSONObject jsonTeam = jsonArrayMovies.getJSONObject(i);
+                                JSONObject jsonMovie = jsonArrayMovies.getJSONObject(i);
 
-                                movie.setMovieName(jsonTeam.getString("title"));
-                                movie.setMovieReleaseDate(jsonTeam.getString("release_date"));
-                                movie.setMoviePoster(jsonTeam.getString("poster_path"));
-                                movie.setMovieOverview(jsonTeam.getString("overview"));
-                                movie.setMovieBackdrops(jsonTeam.getString("backdrop_path"));
-                                listMovie.add(movie);
+                                MovieModel movie = new MovieModel();
+                                movie.setMovieName(jsonMovie.getString("title"));
+                                movie.setMovieReleaseDate(jsonMovie.getString("release_date"));
+                                movie.setMoviePoster(jsonMovie.getString("poster_path"));
+                                movie.setMovieOverview(jsonMovie.getString("overview"));
+                                movie.setMovieBackdrops(jsonMovie.getString("backdrop_path"));
+                                movie.setMovieRating(jsonMovie.getString("vote_average"));
+                                movieModelList.add(movie);
                             }
 
-                            adapterMovie = new MovieAdapter(getApplicationContext(), listMovie, MainActivity.this);
-                            RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
-                            rvMovielist.setHasFixedSize(true);
-                            rvMovielist.setLayoutManager(mLayoutManager);
-                            rvMovielist.setAdapter(adapterMovie);
-
+                            movieAdapter.notifyDataSetChanged();
                             progressBar.setVisibility(View.GONE);
-                            rvMovielist.setVisibility(View.VISIBLE);
+                            rvMovieList.setVisibility(View.VISIBLE);
 
                         } catch (JSONException e) {
                             e.printStackTrace();
-
                         }
                     }
 
                     @Override
                     public void onError(ANError error) {
-                        Log.d("failed", "onErrorr: "+error.toString());
+                        Toast.makeText(MainActivity.this, "Failed to fetch movies", Toast.LENGTH_SHORT).show();
+                        progressBar.setVisibility(View.GONE);
                     }
                 });
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        listMovie = new ArrayList<>();
-        progressBar = findViewById(R.id.progressbar);
-        rvMovielist = findViewById(R.id.rvMovieList);
-
-        listMovie = new ArrayList<>();
-        progressBar =findViewById(R.id.progressbar);
-        getMovies();
-
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.logout_menu, menu);
+        return true;
     }
 
+    @SuppressLint("NonConstantResourceId")
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_logout:
+                logoutUser();
+                Intent intent = new Intent(MainActivity.this, LoginPage.class);
+                startActivity(intent);
+                finish();
+        }
+        return true;
+    }
+
+    private void logoutUser() {
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+        GoogleSignInClient googleSignInClient = GoogleSignIn.getClient(this, gso);
+        googleSignInClient.signOut().addOnCompleteListener(task -> {
+            startActivity(new Intent(MainActivity.this, LoginPage.class));
+            finish();
+        });
+    }
+
+    @Override
     public void onMovieSelected(MovieModel movie) {
         Intent intent = new Intent(MainActivity.this, MovieDetail.class);
         intent.putExtra("movie", movie);
         startActivity(intent);
     }
+
 
 }

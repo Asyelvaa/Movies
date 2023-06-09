@@ -15,6 +15,7 @@ public class MovieDetail extends AppCompatActivity {
     private TextView tvMovieTitle;
     private TextView tvMovieReleaseDate;
     private TextView tvMovieOverview;
+    private TextView tvMovieRating;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

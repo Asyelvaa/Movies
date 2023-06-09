@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -19,22 +19,28 @@
         android:id="@+id/tvMovieTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="20dp"
+        android:textSize="24dp"
         android:textStyle="bold"
         android:paddingHorizontal="20dp"
+        android:layout_marginVertical="5dp"
+        android:layout_below="@+id/ivMovieBackdrop"
         />
+
     <TextView
         android:id="@+id/tvMovieReleaseDate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="12dp"
-        android:paddingHorizontal="20dp"/>
+        android:textSize="13dp"
+        android:paddingHorizontal="20dp"
+        android:layout_below="@+id/tvMovieTitle"/>
     <TextView
         android:id="@+id/tvMovieOverview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="14dp"
+        android:textSize="15dp"
         android:layout_marginTop="30dp"
-        android:paddingHorizontal="20dp"/>
+        android:paddingHorizontal="20dp"
+        android:layout_below="@+id/tvMovieReleaseDate"
+        />
 
-</LinearLayout>
+</RelativeLayout>

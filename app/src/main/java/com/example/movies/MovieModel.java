@@ -11,7 +11,7 @@ public class MovieModel implements Parcelable {
     public void setMovieName(String movieName) { this.movieName = movieName; }
 
     public String getMoviePoster() { return moviePoster; }
-    public void setMoviePoster(String moviePoster) { this.moviePoster = moviePoster; }
+    public void setMoviePoster(String moviePoster) { this.moviePoster = "https://image.tmdb.org/t/p/w500" + moviePoster; }
 
     public String getMovieReleaseDate() { return movieReleaseDate; }
     public void setMovieReleaseDate(String movieReleaseDate) { this.movieReleaseDate = movieReleaseDate; }
@@ -22,11 +22,15 @@ public class MovieModel implements Parcelable {
     public String getMovieBackdrops() { return movieBackdrops; }
     public void setMovieBackdrops(String movieBackdrops) {this.movieBackdrops = movieBackdrops; }
 
+    public String getMovieRating() {return movieRating;}
+    public void setMovieRating(String movieRating) {this.movieRating = movieRating;}
+
     private String movieName;
     private String moviePoster;
     private String movieReleaseDate;
     private String movieOverview;
     private String movieBackdrops;
+    private String movieRating;
 
     protected MovieModel(Parcel in) {
         movieName = in.readString();
@@ -34,6 +38,7 @@ public class MovieModel implements Parcelable {
         moviePoster = in.readString();
         movieOverview = in.readString();
         movieBackdrops = in.readString();
+        movieRating = in.readString();
     }
 
     MovieModel() {
@@ -58,5 +63,6 @@ public class MovieModel implements Parcelable {
         parcel.writeString(moviePoster);
         parcel.writeString(movieOverview);
         parcel.writeString(movieBackdrops);
+        parcel.writeString(movieRating);
     }
 }
